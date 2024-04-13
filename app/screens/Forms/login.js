@@ -54,7 +54,7 @@ function LoginScreen({ navigation }) {
                   .then((userCredentials) => {
                     const user = userCredentials.user;
                     user.email;
-                    navigation.navigate("DrawerNavigation");
+                    navigation.navigate("TabNavigation");
                   })
                   .catch((error) => alert(error));
               })
