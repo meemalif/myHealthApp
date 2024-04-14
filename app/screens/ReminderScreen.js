@@ -1,18 +1,23 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, StatusBar, ScrollView } from "react-native";
 import React from "react";
+import DailyTasksCard from "../components/DailyTaskCard";
+import DailyReminderCard from "../components/DailyRemindersCard";
+import DailyExerciseCard from "../components/DailyExerciseCard";
+import DietPlanCard from "../components/DietPlan";
 
 export default function ReminderScreen() {
   return (
-    <View style={styles.container}>
-      <Text>ReminderScreen</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <DailyReminderCard />
+      <DailyExerciseCard />
+      <DietPlanCard />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop: StatusBar.currentHeight || 0,
   },
 });
