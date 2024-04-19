@@ -59,6 +59,7 @@ const DailyExerciseCard = () => {
       >
         {exercises.map((exercise, index) => (
           <TaskGoals
+            key={index}
             color={exercise.color}
             iconName={exercise.iconName}
             progress={exercise.progress}

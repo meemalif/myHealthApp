@@ -40,7 +40,7 @@ const data = [
       {
         meal: "Dinner",
         description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette and mixed greens",
+          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
       },
     ],
   },
@@ -55,7 +55,7 @@ const data = [
       {
         meal: "Dinner",
         description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette and mixed greens",
+          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
       },
     ],
   },
@@ -70,7 +70,7 @@ const data = [
       {
         meal: "Dinner",
         description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette and mixed greens",
+          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
       },
     ],
   },
@@ -85,7 +85,7 @@ const data = [
       {
         meal: "Dinner",
         description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette and mixed greens",
+          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
       },
     ],
   },
@@ -100,7 +100,7 @@ const data = [
       {
         meal: "Dinner",
         description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette and mixed greens",
+          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
       },
     ],
   },
