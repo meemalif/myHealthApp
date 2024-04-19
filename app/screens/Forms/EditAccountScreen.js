@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { updateDoc, doc } from "firebase/firestore";
 import { Text as TextPaper, Button } from "react-native-paper";
 
@@ -44,8 +44,20 @@ function EditAccountScreen({ navigation, route }) {
       if (values.bio) {
         updatedFields.bio = values.bio;
       }
-      if (values.DOB) {
-        updatedFields.DOB = values.DOB;
+      if (values.birthyear) {
+        updatedFields.birthyear = values.birthyear;
+      }
+      if (values.blood) {
+        updatedFields.blood = values.blood;
+      }
+      if (values.diagnose) {
+        updatedFields.diagnose = values.diagnose;
+      }
+      if (values.stage) {
+        updatedFields.stage = values.stage;
+      }
+      if (values.weight) {
+        updatedFields.weight = values.weight;
       }
 
       // Add more fields as needed
@@ -54,7 +66,7 @@ function EditAccountScreen({ navigation, route }) {
         await updateDoc(docRef, updatedFields);
       }
 
-      navigation.navigate("Account");
+      navigation.goBack();
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -79,24 +91,21 @@ function EditAccountScreen({ navigation, route }) {
         initialValues={{
           nickName: "",
           bio: "",
-          fbLink: "",
-          instaLink: "",
-          linkedInLink: "",
+          birthyear: "",
+          blood: "",
+          diagnose: "",
+          stage: "",
+          weight: "",
           profilePicture: [],
-          societyMade: [],
         }}
         onSubmit={(values) => {
           handleSubmit(values);
         }}
       >
-        <FormImagePicker name={"profilePicture"} single />
         <Text style={styles.logo}>select your profile picture</Text>
-        <AppFormField
-          maxLength={255}
-          name={"nickName"}
-          placeholder="Nick Name"
-          icon="account"
-        />
+        <View style={{ alignSelf: "center" }}>
+          <FormImagePicker name={"profilePicture"} single />
+        </View>
 
         <AppFormField
           name="bio"
@@ -106,9 +115,30 @@ function EditAccountScreen({ navigation, route }) {
           placeholder="Write a brief bio"
           icon="format-text"
         />
+        <AppFormField
+          name="blood"
+          maxLength={4}
+          placeholder="Enter your Blood Group"
+          icon="blood"
+        />
+        <AppFormField
+          name="diagnose"
+          placeholder="Are you diagnosed with anything? i.e Diabetes etc"
+          icon="blood"
+        />
+        <AppFormField
+          name="stage"
+          placeholder="Stage of your diagnosis"
+          icon="blood"
+        />
+        <AppFormField
+          name="weight"
+          placeholder="Enter your weight in kgs"
+          icon="blood"
+        />
 
         <TimePicker
-          name="DOB"
+          name="birthyear"
           placeholder="Date of Birth"
           icon="calendar"
           mode="date"
@@ -133,7 +163,7 @@ function EditAccountScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    marginTop: 20,
+    marginTop: StatusBar.currentHeight + 25,
   },
   logo: {
     color: color.royalPink,

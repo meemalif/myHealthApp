@@ -11,21 +11,15 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native";
-import {
-  collection,
-  collectionGroup,
-  query,
-  where,
-  getDocs,
-  doc,
-  getDoc,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Card, Title, Paragraph } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button } from "react-native-paper";
 
 import { firestore, auth } from "../../firebase";
 import color from "../config/color";
+import TestRecordsCard from "../components/TestRecordsCard";
 
 function ProfileScreen({ navigation }) {
   const [user, setUser] = useState({});
@@ -94,10 +88,43 @@ function ProfileScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <View style={{ flexDirection: "row" }}></View>
         <Text style={styles.name}>{user.name}</Text>
         <Text style={styles.email}>{user.bio}</Text>
         <Text style={styles.email}>{user.email}</Text>
+      </View>
+
+      <View style={styles.bottom}>
+        <Title>Personal Information</Title>
+        <Card>
+          <Card.Content>
+            <View style={styles.personal}>
+              <Paragraph>Weight: </Paragraph>
+              <Title>70 Kg</Title>
+            </View>
+            <View
+              style={[styles.personal, { justifyContent: "space-between" }]}
+            >
+              <Paragraph>Age:</Paragraph>
+              <Title>
+                {new Date().getFullYear() -
+                  user.birthyear?.toDate().getFullYear()}
+              </Title>
+              <Paragraph>Blood Group:</Paragraph>
+              <Title> {user.blood}</Title>
+            </View>
+            <View style={styles.personal}>
+              <Paragraph>Diagnosed With: </Paragraph>
+              <Title>{user.diagnose}</Title>
+            </View>
+            <View style={styles.personal}>
+              <Paragraph> Stage: </Paragraph>
+              <Title>{user.stage}</Title>
+            </View>
+          </Card.Content>
+        </Card>
+      </View>
+      <View style={{ paddingHorizontal: 20 }}>
+        <TestRecordsCard />
       </View>
 
       <Button style={styles.button} mode="outlined" onPress={handleSignOut}>
@@ -196,13 +223,10 @@ const styles = StyleSheet.create({
   },
   bottom: {
     flex: 1,
-    // backgroundColor: "white",
     padding: 20,
     height: "100%",
     borderRadius: 25,
     marginHorizontal: 20,
-    alignSelf: "stretch",
-    borderTopLeftRadius: 55,
   },
   heading: {
     fontSize: 24,
@@ -214,6 +238,10 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOffset: { width: 2, height: 2 },
     elevation: 5,
+  },
+  personal: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 
