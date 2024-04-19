@@ -123,7 +123,7 @@ function ProfileScreen({ navigation }) {
           </Card.Content>
         </Card>
       </View>
-      <View style={{ paddingHorizontal: 20 }}>
+      <View style={{ paddingHorizontal: 10 }}>
         <TestRecordsCard />
       </View>
 

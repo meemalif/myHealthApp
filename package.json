@@ -12,10 +12,12 @@
     "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-community/datetimepicker": "^7.6.4",
+    "@react-native-picker/picker": "^2.7.5",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "expo": "~50.0.14",
+    "expo-image-picker": "~14.7.1",
     "expo-status-bar": "~1.11.1",
     "firebase": "^10.10.0",
     "formik": "^2.4.5",
@@ -25,8 +27,7 @@
     "react-native-elements": "^3.4.3",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-paper": "^5.12.3",
-    "yup": "^1.4.0",
-    "expo-image-picker": "~14.7.1"
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

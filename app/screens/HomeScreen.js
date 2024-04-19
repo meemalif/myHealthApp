@@ -7,7 +7,7 @@ import WelcomeCard from "../components/WelcomeCard";
 import MeasurementCard from "../components/MeasurementCard";
 import DailyTasksCard from "../components/DailyTaskCard";
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
       <WelcomeCard userName={"Muneeb"} />
@@ -29,7 +29,7 @@ export default function HomeScreen() {
       <Button
         icon={"plus-circle"}
         mode="outlined"
-        onPress={() => alert("Add Measurement")}
+        onPress={() => navigation.navigate("AddMeasurement")}
         theme={{ colors: { primary: "#00aaff" } }}
         style={{ marginHorizontal: 20 }}
       >
