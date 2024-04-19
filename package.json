@@ -25,7 +25,8 @@
     "react-native-elements": "^3.4.3",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-paper": "^5.12.3",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "expo-image-picker": "~14.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

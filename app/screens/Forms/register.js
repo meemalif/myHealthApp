@@ -55,10 +55,9 @@ function RegisterScreen({ navigation }) {
         const docRef = await addDoc(collectionRef, {
           name: values.fullname,
           email: values.email,
-          cms: values.cms,
-          department: values.schools.label,
-          batch: values.batch,
+          birthyear: values.birthyear,
           userID: user.uid,
+          createdAt: new Date(),
         });
         // ("Document written with ID: ", docRef.id);
         Alert.alert("Congrats", "You have been registered to Societal");

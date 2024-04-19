@@ -9,6 +9,7 @@ import RegisterScreen from "../screens/Forms/register";
 // import MyDrawer from "./DrawerNavigation";
 import TabNavigation from "./tabnavigation";
 import OnBoardingScreen from "../screens/OnBoardingScreen";
+import EditAccountScreen from "../screens/Forms/EditAccountScreen";
 
 const AppStack = createNativeStackNavigator();
 
@@ -36,6 +37,10 @@ export default function AuthStack() {
         <AppStack.Screen name="Register" component={RegisterScreen} />
         <AppStack.Screen name="Login" component={Login} />
         <AppStack.Screen name="TabNavigation" component={TabNavigation} />
+        <AppStack.Screen
+          name="EditAccountScreen"
+          component={EditAccountScreen}
+        />
       </AppStack.Navigator>
     </NavigationContainer>
   );
