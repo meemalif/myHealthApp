@@ -5,10 +5,12 @@ import DailyReminderCard from "../components/DailyRemindersCard";
 import DailyExerciseCard from "../components/DailyExerciseCard";
 import DietPlanCard from "../components/DietPlan";
 
-export default function ReminderScreen() {
+export default function ReminderScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
-      <DailyReminderCard />
+      <DailyReminderCard
+        navigation={() => navigation.navigate("AddMedicationMeasurement")}
+      />
       <DailyExerciseCard />
       <DietPlanCard />
     </ScrollView>

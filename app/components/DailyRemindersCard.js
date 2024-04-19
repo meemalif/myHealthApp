@@ -15,7 +15,7 @@ const TaskItem = ({ iconName, color, title, reminder }) => (
   </View>
 );
 
-const DailyReminderCard = () => {
+const DailyReminderCard = ({ navigation }) => {
   return (
     <Card containerStyle={styles.cardContainer}>
       <Text style={styles.header}>Medication</Text>
@@ -41,7 +41,9 @@ const DailyReminderCard = () => {
       <Button
         icon={"plus-circle"}
         mode="outlined"
-        onPress={() => alert("Add Measurement")}
+        onPress={() => {
+          navigation();
+        }}
         theme={{ colors: { primary: "#00aaff" } }}
         style={styles.taskItemButton}
       >
