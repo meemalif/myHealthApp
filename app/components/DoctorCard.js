@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import { Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -9,12 +16,21 @@ const DoctorCard = ({ doctor }) => {
       <View style={styles.headerContainer}>
         <View style={styles.doctorInfo}>
           <Text style={styles.doctorName}>{doctor.name}</Text>
-          <Text style={styles.specialty}>{doctor.specialty}</Text>
+          <Text style={styles.specialty}>{doctor.bio}</Text>
           <Text style={styles.description} numberOfLines={3}>
-            {doctor.description.slice(0, 100)}...
+            {doctor.description?.slice(0, 100)}...
           </Text>
         </View>
-        <Image source={doctor.avatar} style={styles.avatar} />
+        <Image
+          source={{
+            uri: doctor.profile
+              ? doctor.profile
+              : doctor.gender === "male"
+              ? "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg"
+              : "https://img.freepik.com/premium-vector/flat-vector-illustration-woman-doctor_678069-78.jpg",
+          }}
+          style={styles.avatar}
+        />
       </View>
       <View style={styles.ratingContainer}>
         {/* Icons for ratings could be repeated based on the rating value */}
@@ -25,7 +41,18 @@ const DoctorCard = ({ doctor }) => {
         <Icon name="star-o" size={15} color="#FFD700" />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.sendRequestButton]}>
+        <TouchableOpacity
+          onPress={() => () => {
+            Linking.openURL(
+              `whatsapp://send?phone=${
+                doctor.contact
+              }&text=${"hi, I came from TheHealthApp"}`
+            );
+            console.log(doctor.contact, "doctor contact number");
+          }}
+          style={[styles.button, styles.sendRequestButton]}
+          d
+        >
           <Text style={styles.buttonText}>SEND REQUEST</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, styles.contactButton]}>

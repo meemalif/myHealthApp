@@ -6,59 +6,60 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Searchbar, SegmentedButtons } from "react-native-paper";
 import color from "../config/color";
 import DoctorCard from "../components/DoctorCard";
+import { collection, getDocs } from "firebase/firestore";
+import { firestore } from "../../firebase";
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const [value, setValue] = useState("diabetes");
+  const [doctors, setDoctors] = useState([]);
+  const [filterDoctors, setFilteredDoctors] = useState([]);
 
-  const doctor = [
-    {
-      name: "Dr. Usman",
-      value: "diabetes",
-      avatar: {
-        uri: "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg",
-      }, // Replace with actual path
-      specialty: "Endocrinologist, Diabetes Specialist",
-      description:
-        "Dr. Usman is a highly respected endocrinologist who specializes in the diagnosis, treatment, and management of diabetes. As a diabetes doctor, he works with patients to develop personalized treatment plans that take into account each individual’s unique needs and circumstances.",
-    },
-    {
-      name: "Dr. Fajar",
-      value: "hypertension",
-      avatar: {
-        uri: "https://img.freepik.com/premium-vector/flat-vector-illustration-woman-doctor_678069-78.jpg",
-      },
-      specialty: "Hypertensio Specialist",
-      description:
-        "Dr. Fajar is a highly respected endocrinologist who specializes in the diagnosis, treatment, and management of Hypertension. As a diabetes doctor, he works with patients to develop personalized treatment plans that take into account each individual’s unique needs and circumstances.",
-    },
-    {
-      name: "Dr. Ayesha",
-      value: "diabetes",
-      avatar: {
-        uri: "https://img.freepik.com/premium-vector/muslim-female-doctor-vector-illustration_844724-1500.jpg",
-      },
-      specialty: "Endocrinologist, Diabetes Specialist",
-      description:
-        "Dr. Ayesha is a highly respected endocrinologist who specializes in the diagnosis, treatment, and management of diabetes. As a diabetes doctor, she works with patients to develop personalized treatment plans that take into account each individual’s unique needs and circumstances.",
-    },
-    {
-      name: "Dr. Ali",
-      value: "hypertension",
-      avatar: {
-        uri: "https://static.vecteezy.com/system/resources/previews/014/637/274/original/male-doctor-carrying-a-stethoscope-while-crossing-his-arms-vector.jpg",
-      },
-      specialty: "Hypertension Specialist",
-      description:
-        "Dr. Ali is a highly respected endocrinologist who specializes in the diagnosis, treatment, and management of Hypertension. As a diabetes doctor, he works with patients to develop personalized treatment plans that take into account each individual’s unique needs and circumstances.",
-    },
-  ];
+  useEffect(() => {
+    // Function to filter users based on the search query
+    const filterData = () => {
+      if (searchQuery.length > 0) {
+        const filteredData = doctors.filter(
+          (user) =>
+            user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            user.speciality.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredDoctors(filteredData);
+      }
+    };
+    filterData();
+  }, [searchQuery]);
 
-  const selectedDoctor = doctor.filter((doc) => doc.value === value);
+  useEffect(() => {
+    // Fetch doctors from Firestore
+    const fetchDoctors = async () => {
+      try {
+        const doctorsRef = collection(firestore, "doctors");
+        const querySnapshot = await getDocs(doctorsRef); // await the async call to getDocs
+
+        const doctors = querySnapshot.docs.map((doc) => ({
+          // Process the query snapshot
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setDoctors(doctors);
+        setFilteredDoctors(doctors);
+      } catch (error) {
+        // Handle any errors during the fetch here
+        console.error("Error fetching doctors:", error);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  const selectedDoctor = filterDoctors.filter(
+    (doc) => doc.speciality === value
+  );
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>

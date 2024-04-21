@@ -22,12 +22,12 @@ import DailyTasksCard from "../components/DailyTaskCard";
 import { auth, firestore } from "../../firebase";
 
 export default function HomeScreen({ navigation }) {
-  const [uid, setUid] = useState("");
   const [bloodPressure, setBloodPressure] = useState([0, 0]);
   const [bloodSugar, setBloodSugar] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
+    const uid = auth.currentUser?.uid; // Use optional chaining in case currentUser is null
     setLoading(true);
     const q = query(collection(firestore, "users"), where("userID", "==", uid));
 
@@ -85,13 +85,6 @@ export default function HomeScreen({ navigation }) {
   };
 
   useEffect(() => {
-    // This is where you would fetch the user's data
-    // and update the UI accordingly
-
-    const uid = auth.currentUser?.uid; // Use optional chaining in case currentUser is null
-    if (!uid) return; // If there's no user, don't attempt to fetch data
-    setUid(uid);
-
     fetchData();
   }, []);
 
