@@ -99,7 +99,7 @@ function ProfileScreen({ navigation }) {
           <Card.Content>
             <View style={styles.personal}>
               <Paragraph>Weight: </Paragraph>
-              <Title>70 Kg</Title>
+              <Title>{user.weight}</Title>
             </View>
             <View
               style={[styles.personal, { justifyContent: "space-between" }]}
@@ -127,7 +127,12 @@ function ProfileScreen({ navigation }) {
         <TestRecordsCard />
       </View>
 
-      <Button style={styles.button} mode="outlined" onPress={handleSignOut}>
+      <Button
+        style={styles.button}
+        mode="contained"
+        buttonColor={color.primary}
+        onPress={handleSignOut}
+      >
         Log out
       </Button>
     </ScrollView>
@@ -192,6 +197,7 @@ const styles = StyleSheet.create({
     width: 200,
     marginBottom: 40,
     alignSelf: "center",
+    margin: 20,
   },
   editButton: {
     position: "absolute",
@@ -226,7 +232,7 @@ const styles = StyleSheet.create({
     padding: 20,
     height: "100%",
     borderRadius: 25,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
   },
   heading: {
     fontSize: 24,

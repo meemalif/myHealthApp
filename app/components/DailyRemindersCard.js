@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"; // or any other icon set
+import { collection, getDocs, query, where } from "firebase/firestore";
+
+import { auth, firestore } from "../../firebase";
 
 // A single task item component
 const TaskItem = ({ iconName, color, title, reminder }) => (
@@ -16,28 +19,55 @@ const TaskItem = ({ iconName, color, title, reminder }) => (
 );
 
 const DailyReminderCard = ({ navigation }) => {
+  const [medication, setMedication] = useState([]);
+  useEffect(() => {
+    // Fetch data from the server
+    const fetchData = async () => {
+      // Fetch data here
+      const uid = auth.currentUser?.uid;
+
+      const q = query(
+        collection(firestore, "users"),
+        where("userID", "==", uid)
+      );
+      try {
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0]; // Assuming 'userID' is unique and only one doc will be returned
+          console.log(userDoc.id);
+          const measurementRef = collection(
+            firestore,
+            "users",
+            userDoc.id,
+            "medicationMeasurement"
+          );
+          const docRef = await getDocs(measurementRef);
+          console.log(docRef.docs[0]);
+          const data = docRef.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setMedication(data);
+          console.log(data);
+        }
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
+
   return (
     <Card containerStyle={styles.cardContainer}>
       <Text style={styles.header}>Medication</Text>
+      {medication?.map((data) => (
+        <TaskItem
+          key={data.id}
+          iconName={data.type === "tab" ? "pill" : "injection"}
+          color="#1E90FF"
+          title={data.medicationName}
+          reminder={data.dosage + " - " + data.frequency}
+        />
+      ))}
 
-      <TaskItem
-        iconName="pill"
-        color="#1E90FF"
-        title="Insulin"
-        reminder="5ml-Through Injection"
-      />
-      <TaskItem
-        iconName="heart-pulse"
-        color="#FF4500"
-        title="Vitamin C"
-        reminder="3 drops - 1 time per day"
-      />
-      <TaskItem
-        iconName="heart"
-        color="#FF69B4"
-        title="Aspirin"
-        reminder="1 pill - Daily"
-      />
       <Button
         icon={"plus-circle"}
         mode="outlined"

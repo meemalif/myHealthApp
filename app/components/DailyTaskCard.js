@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  Timestamp,
+} from "firebase/firestore";
 
 import { auth, firestore } from "../../firebase";
 
@@ -32,6 +39,10 @@ const DailyTasksCard = () => {
     const fetchData = async () => {
       const startOfToday = new Date();
       startOfToday.setHours(0, 0, 0, 0);
+      const startOfTodayTimestamp = Timestamp.fromDate(startOfToday);
+      console.log(startOfTodayTimestamp);
+
+      console.log(startOfToday);
 
       const uid = auth.currentUser.uid;
       const userQuery = query(
@@ -54,12 +65,17 @@ const DailyTasksCard = () => {
         userDoc.id,
         "bloodSugar"
       );
+      const checkQuery = getDocs(bloodPressureRef);
+      console.log((await checkQuery).docs[0]?.data());
 
-      const q = query(bloodPressureRef, where("timestamp", ">=", startOfToday));
+      const q = query(
+        bloodPressureRef,
+        where("createdAt", ">=", startOfTodayTimestamp)
+      );
 
       try {
         const querySnapshot = await getDocs(q);
-        console.log(querySnapshot.docs[0].data());
+        console.log(querySnapshot.docs[0]?.data());
         const readings = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -72,7 +88,7 @@ const DailyTasksCard = () => {
 
       const bloodSugarQuery = query(
         bloodSugarRef,
-        where("timestamp", ">=", startOfToday)
+        where("createdAt", ">=", startOfTodayTimestamp)
       );
 
       try {
@@ -102,7 +118,12 @@ const DailyTasksCard = () => {
           iconName="trophy"
           color="#FFD700"
           title="Completion Rate"
-          progress="85%"
+          progress={`${
+            ((todaysBloodPressureReadings.length +
+              todaysBloodSugarReadings.length) /
+              4) *
+            100
+          }%`}
         />
         <TaskGoals
           iconName="test-tube"
