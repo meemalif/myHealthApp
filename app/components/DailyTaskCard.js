@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons"; // or any other icon set
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
+
+import { auth, firestore } from "../../firebase";
 
 // A single task item component
 const TaskItem = ({ iconName, color, title, progress }) => (
@@ -22,6 +25,69 @@ const TaskGoals = ({ iconName, color, title, progress }) => (
 );
 
 const DailyTasksCard = () => {
+  const [todaysBloodPressureReadings, setTodaysBloodPressureReadings] =
+    useState([]);
+  const [todaysBloodSugarReadings, setTodaysBloodSugarReadings] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const startOfToday = new Date();
+      startOfToday.setHours(0, 0, 0, 0);
+
+      const uid = auth.currentUser.uid;
+      const userQuery = query(
+        collection(firestore, "users"),
+        where("userID", "==", uid)
+      );
+      const userSnapshot = await getDocs(userQuery);
+      const userDoc = userSnapshot.docs[0];
+      const userID = userDoc.id;
+      console.log(userID);
+      const bloodPressureRef = collection(
+        firestore,
+        "users",
+        userDoc.id,
+        "bloodPressure"
+      );
+      const bloodSugarRef = collection(
+        firestore,
+        "users",
+        userDoc.id,
+        "bloodSugar"
+      );
+
+      const q = query(bloodPressureRef, where("timestamp", ">=", startOfToday));
+
+      try {
+        const querySnapshot = await getDocs(q);
+        console.log(querySnapshot.docs[0].data());
+        const readings = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setTodaysBloodPressureReadings(readings);
+      } catch (error) {
+        console.error("Error fetching today's blood pressure readings:", error);
+      }
+
+      const bloodSugarQuery = query(
+        bloodSugarRef,
+        where("timestamp", ">=", startOfToday)
+      );
+
+      try {
+        const querySnapshot = await getDocs(bloodSugarQuery);
+        const readings = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTodaysBloodSugarReadings(readings);
+      } catch (error) {
+        console.error("Error fetching today's blood sugar readings:", error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <Card containerStyle={styles.cardContainer}>
       <Text style={styles.header}>Daily Tasks</Text>
@@ -42,7 +108,9 @@ const DailyTasksCard = () => {
           iconName="test-tube"
           color="#FF6347"
           title="Measurements"
-          progress="3"
+          progress={`${
+            todaysBloodPressureReadings.length + todaysBloodSugarReadings.length
+          }`}
         />
       </View>
       <TaskItem
@@ -55,13 +123,13 @@ const DailyTasksCard = () => {
         iconName="heart-pulse"
         color="#FF4500"
         title="Blood Pressure"
-        progress="2/2 measurements"
+        progress={`${todaysBloodPressureReadings.length}/2 measurements`}
       />
       <TaskItem
         iconName="heart"
         color="#FF69B4"
-        title="Heart rate"
-        progress="1/2 measurements"
+        title="Blood Sugar"
+        progress={`${todaysBloodSugarReadings.length}/2 measurements`}
       />
       <TaskItem
         iconName="food-apple"

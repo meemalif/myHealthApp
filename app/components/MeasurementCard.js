@@ -1,9 +1,32 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Card } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome"; // or any other icon library you prefer
+import Icon from "react-native-vector-icons/FontAwesome";
+const MeasurementCard = ({ title, measurement, unit }) => {
+  let status = "Normal";
+  if (title === "Blood Pressure") {
+    const [systolic, diastolic] = measurement.split("/");
+    if (systolic >= 120 && systolic <= 129 && diastolic < 80) {
+      status = "Elevated";
+    } else if (systolic >= 130 && systolic <= 139) {
+      status = "High";
+    } else if (systolic >= 140 || diastolic >= 90) {
+      status = "VHigh";
+    }
+  } else if (title === "Blood Sugar/Diabetes") {
+    if (measurement < 70) {
+      status = "Low";
+    } else if (measurement >= 70 && measurement <= 99) {
+      status = "Normal";
+    } else if (measurement >= 100 && measurement <= 125) {
+      status = "Elevated";
+    } else if (measurement >= 126 && measurement <= 180) {
+      status = "High";
+    } else {
+      status = "VHigh";
+    }
+  }
 
-const MeasurementCard = ({ title, measurement, unit, status }) => {
   // determine the status color based on the measurement status
   const statusColor = {
     Low: "#2E8B57", // green-ish

@@ -51,7 +51,6 @@ function RegisterScreen({ navigation }) {
           });
 
         const collectionRef = collection(firestore, "users");
-        ("collection made");
         const docRef = await addDoc(collectionRef, {
           name: values.fullname,
           email: values.email,
