@@ -4,6 +4,7 @@ import {
   ScrollView,
   StatusBar,
   TouchableHighlight,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
@@ -108,7 +109,10 @@ export default function BlogScreen({ navigation }) {
             category={"self help"}
             date={blog.createdAt.toDate().toDateString()}
             imageUrl={blog.imageURL[0]}
-            onPress={() => console.log("ummm checking")}
+            onPress={() => {
+              console.log("ummm checking");
+              navigation.navigate("BlogDetail", { id: blog.id });
+            }}
             profile={
               blog.doctor.profile
                 ? blog.doctor.profile
@@ -126,10 +130,10 @@ export default function BlogScreen({ navigation }) {
         ))}
       </ScrollView>
       {doctor.id && (
-        <TouchableHighlight
+        <TouchableWithoutFeedback
           onPress={() => {
-            console.log("doctor id", doctor.id);
             navigation.navigate("addBlog", { doctorID: doctor.id });
+            console.log("doctor id", doctor.id);
           }}
         >
           <View style={styles.fab}>
@@ -144,7 +148,7 @@ export default function BlogScreen({ navigation }) {
               }}
             />
           </View>
-        </TouchableHighlight>
+        </TouchableWithoutFeedback>
       )}
     </View>
   );

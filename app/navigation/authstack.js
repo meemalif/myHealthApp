@@ -12,6 +12,7 @@ import AddMeasurement from "../screens/Forms/AddMeasurement";
 import AddMedicationMeasurement from "../screens/Forms/AddMedicationMeasurement";
 import AddBlog from "../screens/Forms/addBlog";
 import DoctorProfile from "../screens/DoctorProfile";
+import BlogDetail from "../screens/BlogDetail";
 
 const AppStack = createNativeStackNavigator();
 
@@ -50,6 +51,7 @@ export default function AuthStack() {
         />
         <AppStack.Screen name="addBlog" component={AddBlog} />
         <AppStack.Screen name="DoctorProfile" component={DoctorProfile} />
+        <AppStack.Screen name="BlogDetail" component={BlogDetail} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

@@ -54,11 +54,7 @@ function AddBlog({ navigation, route }) {
       fileName = name + Date.now() + "." + extension;
 
       try {
-        const downloadURL = await uploadImage(
-          uploadUri,
-          fileName,
-          "eventsThumbnails/"
-        );
+        const downloadURL = await uploadImage(uploadUri, fileName, "blogs/");
         downloadURLs.push(downloadURL);
         downloadURL;
       } catch (e) {
@@ -140,6 +136,8 @@ function AddBlog({ navigation, route }) {
                     actions.alignRight,
                     actions.foreColor,
                     actions.fontSize,
+                    actions.insertBulletsList,
+                    actions.insertOrderedList,
                   ]}
                   iconMap={{ [actions.heading1]: handleHead }}
                 />

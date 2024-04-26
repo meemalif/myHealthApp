@@ -28,8 +28,10 @@
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-paper": "^5.12.3",
     "react-native-pell-rich-editor": "^1.9.0",
-    "yup": "^1.4.0",
-    "react-native-webview": "13.6.4"
+    "react-native-render-html": "^6.3.4",
+    "react-native-snap-carousel": "^3.9.1",
+    "react-native-webview": "13.6.4",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
