@@ -147,6 +147,13 @@ function EditAccountScreen({ navigation, route }) {
         <SubmitButton title="Done" />
       </AppForm>
       <Button
+        mode="contained"
+        style={{ margin: 10, padding: 5 }}
+        onPress={() => navigation.navigate("RegisterDoctor", { id: userID })}
+      >
+        Register as a Doctor
+      </Button>
+      <Button
         mode="outlined"
         style={{
           margin: 10,

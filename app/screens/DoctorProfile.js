@@ -74,8 +74,8 @@ const DoctorProfile = ({ navigation, route }) => {
         <View style={styles.imageContainer}>
           <Image
             source={{
-              uri: doctor.profile
-                ? doctor.profile
+              uri: doctor.profileImage
+                ? doctor.profileImage
                 : "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
             }}
             style={styles.profileImage}

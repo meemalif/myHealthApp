@@ -114,8 +114,8 @@ export default function BlogScreen({ navigation }) {
               navigation.navigate("BlogDetail", { id: blog.id });
             }}
             profile={
-              blog.doctor.profile
-                ? blog.doctor.profile
+              blog.doctor.profileImage
+                ? blog.doctor.profileImage
                 : "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg"
             }
             profileSub={blog.doctor.speciality}

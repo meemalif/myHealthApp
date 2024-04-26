@@ -23,13 +23,13 @@ const DoctorCard = ({ doctor }) => {
         </View>
         <Image
           source={{
-            uri: doctor.profile
-              ? doctor.profile
+            uri: doctor.profileImage
+              ? doctor.profileImage
               : doctor.gender === "male"
               ? "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg"
               : "https://img.freepik.com/premium-vector/flat-vector-illustration-woman-doctor_678069-78.jpg",
           }}
-          style={styles.avatar}
+          style={doctor.profileImage ? styles.profileImage : styles.avatar}
         />
       </View>
       <View style={styles.ratingContainer}>
@@ -121,6 +121,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
     fontWeight: "bold",
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
 });
 
