@@ -9,7 +9,14 @@ import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import { FAB, Text, Portal, PaperProvider } from "react-native-paper";
 import color from "../config/color";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
 import { firestore, auth } from "../../firebase";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -34,30 +41,52 @@ export default function BlogScreen({ navigation }) {
       };
 
       setDoctor(doctor);
-      console.log("checking doctor" + doctor.id);
+      // console.log("checking doctor" + doctor.id);
     };
     // Fetch blogs from Firestore
     const fetchBlogs = async () => {
       try {
         const blogsRef = collection(firestore, "blogs");
         const blogQuery = await getDocs(blogsRef);
-        const blogs = blogQuery.docs.map(async (doc) => {
-          //getting doctor from doctor collection using doctor id
-          const doctorRef = collection(firestore, "doctors");
-          const doctorQuery = query(
-            doctorRef,
-            where("userId", "==", doc.data().doctorId)
-          );
-          const doctorSnapshot = await getDocs(doctorQuery);
-        });
+        console.log("checking blogs" + blogQuery.docs[0].data().title);
+        const blogs = await Promise.all(
+          blogQuery.docs.map(async (docu) => {
+            const doctorId = docu.data()?.doctorId;
+            if (!doctorId) {
+              console.log("Doctor ID missing for blog:", docu.id);
+              return null; // Early return if there's no doctor ID
+            }
 
-        console.log(blogs);
-        setBlogs(blogs);
+            // Correcting the document reference for fetching doctor details
+            const doctorRef = doc(firestore, "doctors", doctorId);
+            const doctorSnapshot = await getDoc(doctorRef);
+            if (!doctorSnapshot.exists()) {
+              console.log("No matching documents for doctor ID:", doctorId);
+              return null;
+            }
+            const doctor = {
+              ...doctorSnapshot.data(),
+              id: doctorSnapshot.id,
+            };
+            console.log("checking doctor" + doctor.id);
+            return {
+              id: docu.id,
+              ...docu.data(),
+              doctor: doctor,
+            };
+          })
+        );
+
+        // Filter out any null entries if the doctor wasn't found
+        const filteredBlogs = blogs.filter((blog) => blog !== null);
+
+        console.log("checking blogs: ", filteredBlogs);
+        setBlogs(filteredBlogs);
       } catch (error) {
-        // Handle any errors during the fetch here
         console.error("Error fetching blogs:", error);
       }
     };
+
     fetchDoctor();
     fetchBlogs();
   }, []);
@@ -97,18 +126,22 @@ export default function BlogScreen({ navigation }) {
         Blogs and Articles
       </Text>
       <ScrollView>
-        {blogsa.map((blog, index) => (
+        {blogs.map((blog, index) => (
           <Card
             key={index}
-            Subtitle={blog.Subtitle}
-            Title={blog.Title}
-            category={blog.category}
-            date={blog.date}
-            imageUrl={blog.imageUrl}
+            Subtitle={blog.description}
+            Title={blog.title}
+            category={"self help"}
+            date={blog.createdAt.toDate().toDateString()}
+            imageUrl={blog.imageURL[0]}
             onPress={() => console.log("ummm checking")}
-            profile={blog.profile}
-            profileSub={blog.profileSub}
-            profileTitle={blog.profileTitle}
+            profile={
+              blog.doctor.profile
+                ? blog.doctor.profile
+                : "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg"
+            }
+            profileSub={blog.doctor.speciality}
+            profileTitle={blog.doctor.name}
             listPress={() => console.log("list pressed")}
           />
         ))}
