@@ -48,7 +48,7 @@ export default function BlogScreen({ navigation }) {
       try {
         const blogsRef = collection(firestore, "blogs");
         const blogQuery = await getDocs(blogsRef);
-        console.log("checking blogs" + blogQuery.docs[0].data().title);
+        // console.log("checking blogs" + blogQuery.docs[0].data().title);
         const blogs = await Promise.all(
           blogQuery.docs.map(async (docu) => {
             const doctorId = docu.data()?.doctorId;
@@ -68,7 +68,7 @@ export default function BlogScreen({ navigation }) {
               ...doctorSnapshot.data(),
               id: doctorSnapshot.id,
             };
-            console.log("checking doctor" + doctor.id);
+            // console.log("checking doctor" + doctor.id);
             return {
               id: docu.id,
               ...docu.data(),
@@ -80,7 +80,7 @@ export default function BlogScreen({ navigation }) {
         // Filter out any null entries if the doctor wasn't found
         const filteredBlogs = blogs.filter((blog) => blog !== null);
 
-        console.log("checking blogs: ", filteredBlogs);
+        // console.log("checking blogs: ", filteredBlogs);
         setBlogs(filteredBlogs);
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -90,32 +90,6 @@ export default function BlogScreen({ navigation }) {
     fetchDoctor();
     fetchBlogs();
   }, []);
-  const blogsa = [
-    {
-      Title: "Life is beautiful as it is.",
-      Subtitle: "Never take life for granted. Life is beautiful as it is.",
-      category: "Self help",
-      date: new Date().toDateString(),
-      imageUrl:
-        "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      profile:
-        "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      profileTitle: "Dr. John Doe",
-      profileSub: "Neurologist",
-    },
-    {
-      Title: "Life is beautiful as it is.",
-      Subtitle: "Never take life for granted. Life is beautiful as it is.",
-      category: "Self help",
-      date: new Date().toDateString(),
-      imageUrl:
-        "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      profile:
-        "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      profileTitle: "Dr. John Doe",
-      profileSub: "Neurologist",
-    },
-  ];
 
   return (
     <View style={styles.container}>
@@ -142,7 +116,12 @@ export default function BlogScreen({ navigation }) {
             }
             profileSub={blog.doctor.speciality}
             profileTitle={blog.doctor.name}
-            listPress={() => console.log("list pressed")}
+            listPress={() => {
+              console.log("list pressed");
+              navigation.navigate("DoctorProfile", {
+                doctorID: blog.doctor.id,
+              });
+            }}
           />
         ))}
       </ScrollView>
