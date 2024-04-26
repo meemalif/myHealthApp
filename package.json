@@ -27,7 +27,9 @@
     "react-native-elements": "^3.4.3",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-paper": "^5.12.3",
-    "yup": "^1.4.0"
+    "react-native-pell-rich-editor": "^1.9.0",
+    "yup": "^1.4.0",
+    "react-native-webview": "13.6.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
