@@ -70,7 +70,7 @@ const BlogDetail = ({ route, navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <Carousel
-        data={blog.data.imageURL}
+        data={blog.data?.imageURL}
         sliderWidth={screenWidth}
         itemWidth={screenWidth}
         layout="default"
@@ -93,11 +93,11 @@ const BlogDetail = ({ route, navigation }) => {
         />
       </View>
 
-      <Text style={styles.title}>{blog.data.title}</Text>
-      <Text style={styles.subtitle}>{blog.data.description}</Text>
+      <Text style={styles.title}>{blog.data?.title}</Text>
+      <Text style={styles.subtitle}>{blog.data?.description}</Text>
       <RenderHtml
         contentWidth={screenWidth}
-        source={{ html: blog.data.content }}
+        source={{ html: blog.data?.content }}
       />
     </ScrollView>
   );

@@ -14,7 +14,7 @@ const uploadImage = async (uploadUri, fileName, address) => {
   //   xhr.responseType = "blob";
   //   xhr.open("GET", uploadUri, true);
   //   xhr.send(null);
-  // });
+  // 
   const blob = await fetch(uploadUri).then((res) => res.blob());
 
   // Create the file metadata

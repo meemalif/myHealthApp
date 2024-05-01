@@ -24,7 +24,6 @@ function Card({
   profile,
   profileTitle,
   profileSub,
-  old,
   style,
   listPress,
   category,

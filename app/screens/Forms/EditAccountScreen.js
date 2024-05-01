@@ -17,6 +17,7 @@ import uploadImage from "../../config/uploadImage";
 
 function EditAccountScreen({ navigation, route }) {
   const userID = route.params;
+  const uid = auth.currentUser.uid;
 
   const handleSubmit = async (values) => {
     if (values.profilePicture && values.profilePicture.length > 0) {
@@ -149,7 +150,7 @@ function EditAccountScreen({ navigation, route }) {
       <Button
         mode="contained"
         style={{ margin: 10, padding: 5 }}
-        onPress={() => navigation.navigate("RegisterDoctor", { id: userID })}
+        onPress={() => navigation.navigate("RegisterDoctor", { id: uid })}
       >
         Register as a Doctor
       </Button>
