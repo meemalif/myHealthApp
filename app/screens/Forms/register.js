@@ -59,7 +59,7 @@ function RegisterScreen({ navigation }) {
           createdAt: new Date(),
         });
         // ("Document written with ID: ", docRef.id);
-        Alert.alert("Congrats", "You have been registered to Societal");
+        Alert.alert("Congrats", "You have been registered to Health Harbor");
         navigation.navigate("Login");
       })
       .catch((error) => alert(error));

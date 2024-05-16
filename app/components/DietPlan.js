@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, SectionList } from "react-native";
 import { Card, colors } from "react-native-elements";
+import { diabetesMealPlan, hypertensionMealPlan } from "../config/meal-plan";
+import { auth, firestore } from "../../firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const MealCard = ({ meal, description }) => {
   return (
@@ -28,86 +31,110 @@ const DayMealCard = ({ title, data }) => {
   );
 };
 
-const data = [
-  {
-    title: "MONDAY",
-    data: [
-      {
-        meal: "Breakfast",
-        description: "steel cut oats with walnuts and fresh berries",
-      },
-      { meal: "Lunch", description: "salmon salad with cannellini beans" },
-      {
-        meal: "Dinner",
-        description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
-      },
-    ],
-  },
-  {
-    title: "TUESDAY",
-    data: [
-      {
-        meal: "Breakfast",
-        description: "steel cut oats with walnuts and fresh berries",
-      },
-      { meal: "Lunch", description: "salmon salad with cannellini beans" },
-      {
-        meal: "Dinner",
-        description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
-      },
-    ],
-  },
-  {
-    title: "WEDNESDAY",
-    data: [
-      {
-        meal: "Breakfast",
-        description: "steel cut oats with walnuts and fresh berries",
-      },
-      { meal: "Lunch", description: "salmon salad with cannellini beans" },
-      {
-        meal: "Dinner",
-        description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
-      },
-    ],
-  },
-  {
-    title: "THURSDAY",
-    data: [
-      {
-        meal: "Breakfast",
-        description: "steel cut oats with walnuts and fresh berries",
-      },
-      { meal: "Lunch", description: "salmon salad with cannellini beans" },
-      {
-        meal: "Dinner",
-        description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
-      },
-    ],
-  },
-  {
-    title: "FRIDAY",
-    data: [
-      {
-        meal: "Breakfast",
-        description: "steel cut oats with walnuts and fresh berries",
-      },
-      { meal: "Lunch", description: "salmon salad with cannellini beans" },
-      {
-        meal: "Dinner",
-        description:
-          "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
-      },
-    ],
-  },
-  // ... Add other days
-];
+// const data = [
+//   {
+//     title: "MONDAY",
+//     data: [
+//       {
+//         meal: "Breakfast",
+//         description: "steel cut oats with walnuts and fresh berries",
+//       },
+//       { meal: "Lunch", description: "salmon salad with cannellini beans" },
+//       {
+//         meal: "Dinner",
+//         description:
+//           "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
+//       },
+//     ],
+//   },
+//   {
+//     title: "TUESDAY",
+//     data: [
+//       {
+//         meal: "Breakfast",
+//         description: "steel cut oats with walnuts and fresh berries",
+//       },
+//       { meal: "Lunch", description: "salmon salad with cannellini beans" },
+//       {
+//         meal: "Dinner",
+//         description:
+//           "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
+//       },
+//     ],
+//   },
+//   {
+//     title: "WEDNESDAY",
+//     data: [
+//       {
+//         meal: "Breakfast",
+//         description: "steel cut oats with walnuts and fresh berries",
+//       },
+//       { meal: "Lunch", description: "salmon salad with cannellini beans" },
+//       {
+//         meal: "Dinner",
+//         description:
+//           "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
+//       },
+//     ],
+//   },
+//   {
+//     title: "THURSDAY",
+//     data: [
+//       {
+//         meal: "Breakfast",
+//         description: "steel cut oats with walnuts and fresh berries",
+//       },
+//       { meal: "Lunch", description: "salmon salad with cannellini beans" },
+//       {
+//         meal: "Dinner",
+//         description:
+//           "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
+//       },
+//     ],
+//   },
+//   {
+//     title: "FRIDAY",
+//     data: [
+//       {
+//         meal: "Breakfast",
+//         description: "steel cut oats with walnuts and fresh berries",
+//       },
+//       { meal: "Lunch", description: "salmon salad with cannellini beans" },
+//       {
+//         meal: "Dinner",
+//         description:
+//           "roasted chicken thighs with potatoes and scallions with herb vinaigrette.",
+//       },
+//     ],
+//   },
+//   // ... Add other days
+// ];
 
 const DietPlanCard = () => {
+  const [diagnose, setDiagnose] = useState("Diabetes");
+  useEffect(() => {
+    // Fetch data from the server
+    const fetchData = async () => {
+      // Fetch data here
+      const uid = auth.currentUser?.uid;
+
+      const q = query(
+        collection(firestore, "users"),
+        where("userID", "==", uid)
+      );
+      try {
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0]; // Assuming 'userID' is unique and only one doc will be returned
+          setDiagnose(userDoc.data().diagnose);
+          console.log(userDoc.id);
+        }
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
+  const data =
+    diagnose === "Diabetes" ? diabetesMealPlan : hypertensionMealPlan;
   return (
     <Card containerStyle={styles.cardContainer}>
       <Text style={styles.cardTitle}>Diet Plan</Text>
