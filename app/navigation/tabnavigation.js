@@ -7,6 +7,7 @@ import SearchScreen from "../screens/SearchScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import BlogScreen from "../screens/BlogScreen";
 import HomeScreen from "../screens/HomeScreen";
+import AIModel from "../screens/AI";
 import color from "../config/color";
 
 const Tab = createBottomTabNavigator();
@@ -66,6 +67,19 @@ const TabNavigator = () => (
         tabBarIcon: ({ size, color }) => (
           <MaterialCommunityIcons
             name="account-circle"
+            size={size}
+            color={color}
+          />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="AI"
+      component={AIModel}
+      options={{
+        tabBarIcon: ({ size, color }) => (
+          <MaterialCommunityIcons
+            name="robot-happy"
             size={size}
             color={color}
           />
