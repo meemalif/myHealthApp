@@ -59,20 +59,6 @@ const TabNavigator = () => (
         ),
       }}
     />
-
-    <Tab.Screen
-      name="Profile"
-      component={ProfileScreen}
-      options={{
-        tabBarIcon: ({ size, color }) => (
-          <MaterialCommunityIcons
-            name="account-circle"
-            size={size}
-            color={color}
-          />
-        ),
-      }}
-    />
     <Tab.Screen
       name="AI"
       component={AIModel}
@@ -80,6 +66,19 @@ const TabNavigator = () => (
         tabBarIcon: ({ size, color }) => (
           <MaterialCommunityIcons
             name="robot-happy"
+            size={size}
+            color={color}
+          />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{
+        tabBarIcon: ({ size, color }) => (
+          <MaterialCommunityIcons
+            name="account-circle"
             size={size}
             color={color}
           />

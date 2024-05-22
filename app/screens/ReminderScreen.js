@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet, StatusBar, ScrollView } from "react-native";
+import { StyleSheet, StatusBar, ScrollView } from "react-native";
 import React from "react";
-import DailyTasksCard from "../components/DailyTaskCard";
 import DailyReminderCard from "../components/DailyRemindersCard";
 import DailyExerciseCard from "../components/DailyExerciseCard";
 import DietPlanCard from "../components/DietPlan";
