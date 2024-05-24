@@ -19,10 +19,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.meemalif.myHealthApp"
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "413047b5-b4b2-4caa-bacb-fe223cd798f3"
+      }
     }
   }
 }
